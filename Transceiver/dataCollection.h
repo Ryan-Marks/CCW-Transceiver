@@ -1,6 +1,7 @@
 class dataCollection{
   int receiverPin = A12;
   float Vdata[800];
+  public: boolean flag = false;
 
   public: dataCollection(int RP){
     receiverPin = RP;
@@ -15,8 +16,8 @@ class dataCollection{
   
   void voltage(int i) {
     Vdata[i] = analogRead(receiverPin) * (3.3 / (float)1024);
-    Serial.print(Vdata[i]);
-    Serial.print(", ");
+    //Serial.print(Vdata[i]);
+    //Serial.print(", ");
   }
 
   

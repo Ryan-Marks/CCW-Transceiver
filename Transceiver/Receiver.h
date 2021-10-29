@@ -6,8 +6,12 @@ class Receiver{
   private: int dataPerSec = 0;
   int count = 0;
   int nPerS;
+  unsigned long end_of_interval_micros;                            
+  unsigned long TOS_micros;
+  unsigned long interval=100000;
+  unsigned long curr_micros;
   
-  //Creation of Objects for further "Threading"
+  //Creation of Objects
   DFT dft;
   dataCollection dc;
   Translator Trans;
@@ -19,28 +23,36 @@ class Receiver{
   }
 
   public: long ReceiveData(long prevMicro){
-    if(dataPerSec < nPerS){ //if you've taken less data than you expect to in a second
-      if(micros() - prevMicro >= 125){
+    curr_micros = micros();
+    if(dataPerSec < nPerS && curr_micros < end_of_interval_micros){
+      if(curr_micros - prevMicro >= 125){
         dc.voltage(count++);
-        return micros();
+        return curr_micros;
       }
     }
     return prevMicro;
    }
 
   public: void processData(int n){
-    if(count == n){ //reset array and perform DFT
-      float temp = dft.DFTMath(dc.getVdata());
-      Trans.newData(dft.DFTLogic(temp));
-      //Serial.println(temp);
+    float curr_micros = micros();
+    if(count == n || curr_micros >= end_of_interval_micros){
+      end_of_interval_micros += interval;
+      Trans.newData(dft.DFTLogic(dft.DFTMath(dc.getVdata())));
+      
+      //May need to reset Vdata to 0 instead of character null
       dc.resetVdata();
+      
       count = 0;
       dataPerSec += n;
-      Serial.println();
+      //Serial.println();
     }
   }
 
-  public: void setDataPerS(int d){dataPerSec = d;}
+  public: void resetSecond(){
+    dataPerSec = 0;
+    TOS_micros = micros();
+    end_of_interval_micros = TOS_micros + interval;
+  }
   public: void setNPerS(int n){nPerS = n;}
   public: int getN(){return dft.getN();}
   public: void produceDFT(){dft.produceDFT(dft.getN());}

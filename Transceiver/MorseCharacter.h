@@ -39,151 +39,151 @@ class MorseCharacter{
       c=toupper(c); // no Morse for lower case letters
     switch (c)  {
     case 'A':
-      return(".-");
+      return(".-E");
       break;
     case 'B':
-      return("-...");
+      return("-...E");
       break;
     case 'C':
-      return("-.-.");
+      return("-.-.E");
       break;
     case 'D':
-      return("-..");
+      return("-..E");
       break;
     case 'E':
-      return(".");
+      return(".E");
       break;  
     case 'F':
-      return("..-.");
+      return("..-.E");
       break;
     case 'G':
-      return("--.");
+      return("--.E");
       break; 
     case 'H':
-      return("....");
+      return("....E");
       break;
     case 'I':
-      return("..");
+      return("..E");
       break;
     case 'J':
-      return(".---");
+      return(".---E");
       break;
     case 'K':
-      return("-.-");
+      return("-.-E");
       break;
     case 'L':
-      return(".-..");
+      return(".-..E");
       break;
     case 'M':
-      return("--");
+      return("--E");
       break;
     case 'N':
-      return("-.");
+      return("-.E");
       break;
     case 'O':
-      return("---");
+      return("---E");
       break;
     case 'P':
-      return(".--.");
+      return(".--.E");
       break;
     case 'Q':
-      return("--.-");
+      return("--.-E");
       break;
     case 'R':
-      return(".-.");
+      return(".-.E");
       break;
     case 'S':
-      return("...");
+      return("...E");
       break;
     case 'T':
-      return("-");
+      return("-E");
       break;
     case 'U':
-      return("..-");
+      return("..-E");
       break;  
     case 'V':
-      return("...-");
+      return("...-E");
       break;
     case 'W':
-      return(".--");
+      return(".--E");
       break;
     case 'X':
-      return("-..-");
+      return("-..-E");
       break;
     case 'Y':
-      return("-.--");
+      return("-.--E");
       break;      
     case 'Z':
-      return("--..");
+      return("--..E");
       break;
 
     case '1':
-      return(".----");
+      return(".----E");
       break;
     case '2':
-      return("..---");
+      return("..---E");
       break;
     case '3':
-      return("...--");
+      return("...--E");
       break;
     case '4':
-      return("....-");
+      return("....-E");
       break;
     case '5':
-      return(".....");
+      return(".....E");
       break;
     case '6':
-      return("-....");
+      return("-....E");
       break;
     case '7':
-      return("--...");
+      return("--...E");
       break;
     case '8':
-      return("---..");
+      return("---..E");
       break;      
     case '9':
-      return("----.");
+      return("----.E");
       break;
     case '0':
-      return("-----");
+      return("-----E");
       break;
 
     case '.':
-      return(".-.-.-");
+      return(".-.-.-E");
       break;
     case ',':
-      return("--..--");
+      return("--..--E");
       break;
     case '?':
-      return("..--..");
+      return("..--..E");
       break;
     case '/':
-      return("-..-.");
+      return("-..-.E");
       break;
     case '@': // had to do that!
-      return(".--.-.");
+      return(".--.-.E");
       break;
     case ' ': // Space.  Need handler for this.
       return("SP");
       break;
     // The FCC prosign series  
     case '=': // <BT>, break between thoughts
-      return("-...-");
+      return("-...-E");
       break;
     case '-': // <AA>, traffic handler's line end
-      return(".-.-");
+      return(".-.-E");
       break;
     case '<': // <AS>, "wait" or "stand by"
-      return(".-...");
+      return(".-...E");
       break;
     case '>': // <AR>, "end of transmission"
-      return(".-.-.");
+      return(".-.-.E");
       break;
     case '%': // <SK>, end of work ("silent key")
-      return("...-.-");
+      return("...-.-E");
       break;
     case '+': // <KN>, "over" to responding station only ("K"is over to anyone)
-      return("-.--.");
+      return("-.--.E");
       break;          
     default:  // Any other character, return null string.
       return("");

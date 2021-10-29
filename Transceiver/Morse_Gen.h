@@ -1,4 +1,5 @@
 #include "MorseCharacter.h"
+#include <LinkedListLib.h>
 //#include "Get_char_from_Python.h"
 
 class Morse_Gen {
@@ -6,12 +7,15 @@ class Morse_Gen {
   String Morse_queue="";
   char c;
   String MorseString="";
-  String timing_queue = "";
+  LinkedList<int> timing_queue = LinkedList<int>();
   
   byte TRANSMIT_PIN = 4;
   bool send_to_LED = true; // have code sent to LED
   bool send_to_transmitter = true; // don't transmit until command sent
   bool send_to_tone_generator = false; // generate tones until command sent
+
+  // Counters for number of key down and up time slots:
+  int remaining_ticks = 0;
 
   MorseCharacter MC;
 
@@ -25,8 +29,6 @@ class Morse_Gen {
     TRANSMIT_PIN = T;
     pinMode(T,OUTPUT);
   }
-  // Counters for number of key down and up time slots:
-  int remaining_ticks = 0;
   
   private: void key_up() { // do the shutoffs regardless of _send_to states
       digitalWrite(LED_BUILTIN, LOW);
@@ -68,35 +70,41 @@ public:
   void set_send_to_tone_generator(bool S){send_to_tone_generator=S;}
 
   void tick_clock(){
+    if(Morse_queue.length() > 0){
+      MorseString.concat(MC.MorseFromCharacter(Morse_queue.charAt(0))); // FIFO buffer
+      Morse_queue.remove(0,1);
+    }
+    
     if (MorseString.length()>0) {
       if (MorseString.substring(0,2) == "SP"){ // Space: prepare key up time
-        timing_queue.append(-4);
+        timing_queue.InsertTail(-4);
         MorseString.remove(0,2);
       } else if (MorseString.charAt(0)=='.') {
-        timing_queue.append(1);
-        timing_queue.append(-1);
+        timing_queue.InsertTail(1);
+        timing_queue.InsertTail(-1);
         MorseString.remove(0,1);
-        if (MorseString.length()==0) {
-          timing_queue.append(-2);
-        }
-      } else {
-        timing_queue.append(3);
-        timing_queue.append(-1);
+      } else if(MorseString.charAt(0) == '-'){
+        timing_queue.InsertTail(3);
+        timing_queue.InsertTail(-1);
         MorseString.remove(0,1);
-        if (MorseString.length()==0) {
-          timing_queue.append(-2);
-        }
+      }
+      if (MorseString.charAt(0)== 'E') {
+          timing_queue.InsertTail(-2);
+          MorseString.remove(0,1);
       }
     }
-    if(Morse_queue.length() > 0){
-        MorseString = MC.MorseFromCharacter(Morse_queue.charAt(0)); // FIFO buffer
-        Morse_queue.remove(0,1);
-    }
-     
+    if(timing_queue.GetSize() > 0){
+      for(int i = 0; i < timing_queue.GetSize();i++){
+        Serial.print(timing_queue.GetAt(i));
+        Serial.print(", ");
+      }
+      Serial.println();
+      Serial.println(remaining_ticks);
+    } 
     if(remaining_ticks == 0){
-      if(timing_queue.length() == 0){key_up();return;}
-      remaining_ticks = timing_queue.charAt(0);
-      timing_queue.remove(0,1);
+      if(timing_queue.GetSize() == 0){key_up();return;}
+      remaining_ticks = timing_queue.GetHead();
+      timing_queue.RemoveHead();
     }
     if(remaining_ticks > 0){
       key_dn();
