@@ -5,7 +5,7 @@ class Transmitter{
   unsigned long end_of_interval_micros;                         
   unsigned long TOS_micros;
   const int MULT=10;
-  unsigned long interval=1000000/MULT;
+  unsigned long interval=1000000/MULT - 300;
   int interval_count=0;
 
   Morse_Gen gen;

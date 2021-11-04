@@ -33,7 +33,8 @@ class DFT{
       averageSum.set(averageSum.real() + (DFTMatrix[i].real() * Data[i]),averageSum.imag() + (DFTMatrix[i].imag() * Data[i]));
     }
     //averageSum /= N;
-    //Serial.println(averageSum.modulus()); //Used for testing for LogicLevel
+    //Serial.print(averageSum.modulus()); //Used for testing for LogicLevel
+    //Serial.print(", ");
     return averageSum.modulus();
   }
 

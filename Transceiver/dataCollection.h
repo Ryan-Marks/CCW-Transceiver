@@ -16,7 +16,7 @@ class dataCollection{
   
   void voltage(int i) {
     Vdata[i] = analogRead(receiverPin) * (3.3 / (float)1024);
-    //Serial.print(Vdata[i]);
+    //Serial.println(Vdata[i]);
     //Serial.print(", ");
   }
 

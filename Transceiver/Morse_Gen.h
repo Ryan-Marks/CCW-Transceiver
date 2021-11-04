@@ -55,6 +55,7 @@ public:
     if(Serial.available() > 0) {
         return Serial.readString();
     }
+    return "";
   }
 
   void add_new_character(char c){
@@ -74,7 +75,12 @@ public:
       MorseString.concat(MC.MorseFromCharacter(Morse_queue.charAt(0))); // FIFO buffer
       Morse_queue.remove(0,1);
     }
-    
+
+    /*for(int i = 0; i < MorseString.length();i++){
+      Serial.print(MorseString.charAt(i));
+      Serial.print(", ");
+    }
+    Serial.println();*/
     if (MorseString.length()>0) {
       if (MorseString.substring(0,2) == "SP"){ // Space: prepare key up time
         timing_queue.InsertTail(-4);
@@ -88,19 +94,21 @@ public:
         timing_queue.InsertTail(-1);
         MorseString.remove(0,1);
       }
-      if (MorseString.charAt(0)== 'E') {
+       else if (MorseString.charAt(0)== 'E') {
           timing_queue.InsertTail(-2);
           MorseString.remove(0,1);
       }
     }
+    
+    /*for(int i = 0; i < timing_queue.GetSize();i++){
+      Serial.print(timing_queue.GetAt(i));
+      Serial.print(", ");
+    }
     if(timing_queue.GetSize() > 0){
-      for(int i = 0; i < timing_queue.GetSize();i++){
-        Serial.print(timing_queue.GetAt(i));
-        Serial.print(", ");
-      }
       Serial.println();
       Serial.println(remaining_ticks);
-    } 
+    }*/
+    
     if(remaining_ticks == 0){
       if(timing_queue.GetSize() == 0){key_up();return;}
       remaining_ticks = timing_queue.GetHead();
@@ -111,7 +119,7 @@ public:
       remaining_ticks--;
       return;
     }
-    if(remaining_ticks < 0){
+    else if(remaining_ticks < 0){
       key_up();
       remaining_ticks++;
       return;

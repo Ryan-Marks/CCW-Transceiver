@@ -29,8 +29,8 @@ void setup() {
 }
 
 void loop() {
-  //prevMicros = R.ReceiveData(prevMicros);
-  //R.processData(n);
+  prevMicros = R.ReceiveData(prevMicros);
+  R.processData(n);
   T.getInput();
   T.TransmitInput();
 }
@@ -40,4 +40,5 @@ void ISR() {
   state = !state;
   R.resetSecond();
   T.resetSecond();
+  //Serial.println();
 }

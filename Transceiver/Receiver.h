@@ -8,7 +8,7 @@ class Receiver{
   int nPerS;
   unsigned long end_of_interval_micros;                            
   unsigned long TOS_micros;
-  unsigned long interval=100000;
+  unsigned long interval=100000 - 10;
   unsigned long curr_micros;
   
   //Creation of Objects
