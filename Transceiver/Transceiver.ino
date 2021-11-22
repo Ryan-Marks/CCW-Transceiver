@@ -4,7 +4,7 @@
 //Things to update if needed
 const byte PPSPin = 2;
 const byte receiverPin = A12; //Pin 26
-const float logicLevel = 100;
+const float logicLevel = 400;
 const long freq = 800; //Hz
 const byte transmitPin = 33;
 
@@ -31,14 +31,14 @@ void setup() {
 void loop() {
   prevMicros = R.ReceiveData(prevMicros);
   R.processData(n);
-  T.getInput();
-  T.TransmitInput();
+  //T.getInput();
+  //T.TransmitInput();
 }
 
 void ISR() {
-  //digitalWrite(ledPin, state); //Commented out to send Transmit output on it
+  digitalWrite(ledPin, state); //Commented out to send Transmit output on it
   state = !state;
   R.resetSecond();
-  T.resetSecond();
+  //T.resetSecond();
   //Serial.println();
 }
